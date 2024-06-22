@@ -5,21 +5,8 @@ from datetime import datetime
 
 
 class TestUserRegister(BaseCase):
-    def setup_email(self):
-        base_part = "learn_qa"
-        domain = "example.com"
-        random_part = datetime.now().strftime("%m%d%Y%H%M%S")
-        self.email = f"{base_part}{random_part}@{domain}"
-
     def test_create_user_successfully(self):
-        self.setup_email()
-        data = {
-            'password': '123',
-            'username': 'learnqa',
-            'firstName': 'learnqa',
-            'lastName': 'learnqa',
-            'email': self.email
-        }
+        data = self.prepare_registartion_data()
 
         response = requests.post("https://playground.learnqa.ru/api/user/", data=data)
 
@@ -29,13 +16,7 @@ class TestUserRegister(BaseCase):
 
     def test_create_user_with_existing_email(self):
         email = 'vinkotov@example.com'
-        data = {
-            'password': '123',
-            'username': 'learnqa',
-            'firstName': 'learnqa',
-            'lastName': 'learnqa',
-            'email': email
-        }
+        data = self.prepare_registartion_data(email)
 
         response = requests.post("https://playground.learnqa.ru/api/user/", data=data)
 
